@@ -10,7 +10,7 @@ import (
 	"os"
 )
 
-func DBConnection() {
+func DBConnection() (*gorm.DB, error) {
 	// load the env file
 	err := godotenv.Load()
 	if err != nil {
@@ -40,5 +40,7 @@ func DBConnection() {
 	if err != nil {
 		log.Fatal("Error creating animal table")
 	}
+
+	return db, nil
 
 }

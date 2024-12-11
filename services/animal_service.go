@@ -2,6 +2,7 @@ package services
 
 import (
 	"alexdev2001/zoo_database_crud_api/models"
+	"errors"
 	"gorm.io/gorm"
 )
 
@@ -55,9 +56,9 @@ func (h *AnimalService) UpdateAnimal(id int, animal models.Animal) (*models.Anim
 // function to delete animal
 func (h *AnimalService) DeleteAnimal(id int) (*models.Animal, error) {
 	var animal models.Animal
-	result := h.db.First(&animal, id)
-	if result.Error != nil {
-		return nil, result.Error
+	result := h.db.Delete(&animal, id)
+	if result.RowsAffected == 0 {
+		return nil, errors.New("animal not found")
 	}
 	return &animal, nil
 }
